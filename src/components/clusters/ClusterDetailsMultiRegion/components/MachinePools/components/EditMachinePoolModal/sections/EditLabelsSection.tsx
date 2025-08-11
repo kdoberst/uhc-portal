@@ -26,7 +26,7 @@ import { EditMachinePoolValues } from '../hooks/useMachinePoolFormik';
 
 import './EditLabelsSection.scss';
 
-const AWS_TAG_MAX_COUNT = 25;
+const AWS_TAG_MAX_COUNT = 17;
 
 const EditLabelsSection = ({
   isNewMachinePool = false,

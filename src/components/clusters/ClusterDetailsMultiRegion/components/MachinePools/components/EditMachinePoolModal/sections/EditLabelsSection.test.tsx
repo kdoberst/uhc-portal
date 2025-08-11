@@ -123,8 +123,8 @@ describe('EditLabelsSection', () => {
       expect(screen.queryByDisplayValue('aws-tag')).not.toBeInTheDocument();
     });
 
-    it('disables AWS Tag checkbox when 25 AWS tags limit is reached', () => {
-      const awsTags = Array.from({ length: 25 }, (_, i) => ({
+    it('disables AWS Tag checkbox when 17 AWS tags limit is reached', () => {
+      const awsTags = Array.from({ length: 17 }, (_, i) => ({
         key: `aws-tag-${i}`,
         value: `value-${i}`,
         isAwsTag: true,
@@ -146,8 +146,8 @@ describe('EditLabelsSection', () => {
       expect(lastCheckbox).toBeDisabled();
     });
 
-    it('allows AWS Tag checkbox when under 25 AWS tags limit', () => {
-      const awsTags = Array.from({ length: 24 }, (_, i) => ({
+    it('allows AWS Tag checkbox when under 17 AWS tags limit', () => {
+      const awsTags = Array.from({ length: 16 }, (_, i) => ({
         key: `aws-tag-${i}`,
         value: `value-${i}`,
         isAwsTag: true,
