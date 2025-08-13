@@ -1,26 +1,20 @@
-name: Pull Request Review Report
+name: Send GH Action data to Slack
 
 on:
-  schedule:
-    - cron: '*/5 * * * *'  # Runs every 5 minutes
   workflow_dispatch:  # Allows manual triggering
 
 jobs:
-  generate-report:
-    name: Generate Pull Request Review Report
+  check-links-and-send-failures-to-slack:
+    name: Check Links and Send Failures to Slack
     runs-on: ubuntu-latest
-    concurrency:
-      group: pr-review-report
-      cancel-in-progress: true
+   
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: Send custom event details to a Slack workflow
+        uses: slackapi/slack-github-action@v2.1.1
         with:
-          token: ${{ secrets.PR_REVIEW_TOKEN }}
-
-      - name: Generate PR review report
-        uses: dtaylor113/ocmui-pr-review-report@main
-        with:
-          owner: "RedHatInsights"
-          name: "uhc-portal"
-          token: ${{ secrets.PR_REVIEW_TOKEN }}
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: webhook-trigger
+          payload: |
+            status: "${{ job.status }}"
+            option: "false"
+            message: "This is a test message"

@@ -796,6 +796,13 @@ async function main() {
 
   // Display the results
   displayResults(statusByUrl, redirectItems, verboseMode, redirectsMode);
+
+  // Determine exit code: exit(1) if any URL returned 404, else exit(0)
+  const has404 = Object.values(statusByUrl).some(
+    (result) => typeof result === 'number' && result === 404,
+  );
+
+  return { exitCode: has404 ? 1 : 0 };
 }
 
 // ======================================================================
@@ -804,8 +811,9 @@ async function main() {
 
 // Run the main function and handle errors
 main()
-  .then(() => {
-    process.exit(0);
+  .then(({ exitCode }) => {
+    console.log(`Exiting with code ${exitCode}`);
+    process.exit(exitCode);
   })
   .catch((error) => {
     console.error('Error running script:', error);
