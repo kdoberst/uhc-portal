@@ -797,15 +797,15 @@ async function main() {
   // Display the results
   displayResults(statusByUrl, redirectItems, verboseMode, redirectsMode);
 
-  // Determine exit code: exit(1) if any URL returned 404, else exit(0)
-  const has404 = Object.values(statusByUrl).some(
+
+  const has404 = Object.values(statusByUrl).filter(
     (result) => typeof result === 'number' && result === 404,
   );
   if (process.env.GITHUB_OUTPUT) {
-    fs.appendFileSync(process.env.GITHUB_OUTPUT, `has404=${  has404  }\n`);
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, `has404=${  has404.length > 0  }\n`);
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, `notFoundLength=${  has404.length  }\n`);
   }
 
-  // return { exitCode: has404 ? 1 : 0 };
 }
 
 // ======================================================================

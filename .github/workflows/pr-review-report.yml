@@ -25,11 +25,13 @@ jobs:
         run: node run/check-links.mjs
 
       - name: Send custom event details to a Slack workflow
+        if: steps.check-links.outputs.has404 == 'true'
         uses: slackapi/slack-github-action@v2.1.1
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
           webhook-type: webhook-trigger
           payload: |
-            status: "${{ job.status }} | has404: ${{ steps.check-links.outputs.has404 }}"
-            option: "false"
-            message: "This is a test message"
+            has404: "${{ steps.check-links.outputs.has404 }}"
+            404_length: "${{ steps.check-links.outputs.notFoundLength }}"
+            message: "Broken links found"
+            run_url: "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
