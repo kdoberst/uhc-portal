@@ -1,7 +1,7 @@
 name: Send GH Action data to Slack
 
 on:
-  workflow_dispatch:  # Allows manual triggering
+  workflow_dispatch:
 
 jobs:
   check-links-and-send-failures-to-slack:
@@ -20,15 +20,15 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Finding broken links
+      - name: Find and list broken links
         id: check-links
         run: node run/check-links.mjs
 
-      - name: Send custom event details to a Slack workflow
+      - name: Send message to Slack
         if: steps.check-links.outputs.has404 == 'true'
         uses: slackapi/slack-github-action@v2.1.1
         with:
-          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook: ${{ secrets.SLACK_BROKEN_LINKS_WEBHOOK_URL }}
           webhook-type: webhook-trigger
           payload: |
             has404: "${{ steps.check-links.outputs.has404 }}"

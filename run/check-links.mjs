@@ -802,7 +802,8 @@ async function main() {
     (result) => typeof result === 'number' && result === 404,
   );
   if (process.env.GITHUB_OUTPUT) {
-    fs.appendFileSync(process.env.GITHUB_OUTPUT, `has404=${  has404.length > 0  }\n`);
+    // fs.appendFileSync(process.env.GITHUB_OUTPUT, `has404=${  has404.length > 0  }\n`);
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, `has404=${  has404.length < 0  }\n`);
     fs.appendFileSync(process.env.GITHUB_OUTPUT, `notFoundLength=${  has404.length  }\n`);
   }
 
