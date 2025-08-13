@@ -12,7 +12,7 @@
  * - Color-coded output for easy identification of issues
  * - Multiple output modes (default, verbose, redirects-only)
  */
-
+import fs from "fs";
 import fetch from 'node-fetch';
 import ProgressBar from 'progress';
 
@@ -801,8 +801,11 @@ async function main() {
   const has404 = Object.values(statusByUrl).some(
     (result) => typeof result === 'number' && result === 404,
   );
+  if (process.env.GITHUB_OUTPUT) {
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, `has404=${  has404  }\n`);
+  }
 
-  return { exitCode: has404 ? 1 : 0 };
+  // return { exitCode: has404 ? 1 : 0 };
 }
 
 // ======================================================================
@@ -811,9 +814,8 @@ async function main() {
 
 // Run the main function and handle errors
 main()
-  .then(({ exitCode }) => {
-    console.log(`Exiting with code ${exitCode}`);
-    process.exit(exitCode);
+  .then(() => {
+    process.exit(0);
   })
   .catch((error) => {
     console.error('Error running script:', error);

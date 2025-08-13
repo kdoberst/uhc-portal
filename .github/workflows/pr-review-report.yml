@@ -21,6 +21,7 @@ jobs:
         run: yarn install
 
       - name: Finding broken links
+        id: check-links
         run: node run/check-links.mjs
 
       - name: Send custom event details to a Slack workflow
@@ -29,6 +30,6 @@ jobs:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
           webhook-type: webhook-trigger
           payload: |
-            status: "${{ job.status }}"
+            status: "${{ job.status }} | has404: ${{ steps.check-links.outputs.has404 }}"
             option: "false"
             message: "This is a test message"
