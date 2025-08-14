@@ -12,7 +12,7 @@
  * - Color-coded output for easy identification of issues
  * - Multiple output modes (default, verbose, redirects-only)
  */
-import fs from "fs";
+import fs from 'fs';
 import fetch from 'node-fetch';
 import ProgressBar from 'progress';
 
@@ -797,15 +797,13 @@ async function main() {
   // Display the results
   displayResults(statusByUrl, redirectItems, verboseMode, redirectsMode);
 
-
   const has404 = Object.values(statusByUrl).filter(
     (result) => typeof result === 'number' && result === 404,
   );
   if (process.env.GITHUB_OUTPUT) {
-    fs.appendFileSync(process.env.GITHUB_OUTPUT, `has404=${  has404.length > 0  }\n`);
-    fs.appendFileSync(process.env.GITHUB_OUTPUT, `notFoundLength=${  has404.length  }\n`);
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, `has404=${has404.length > 0}\n`);
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, `notFoundLength=${has404.length}\n`);
   }
-
 }
 
 // ======================================================================
