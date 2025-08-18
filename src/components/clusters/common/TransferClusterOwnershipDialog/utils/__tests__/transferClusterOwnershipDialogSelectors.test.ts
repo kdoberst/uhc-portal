@@ -84,12 +84,7 @@ describe('Utility functions', () => {
       const result = canTransferClusterOwnershipMultiRegion(cluster);
       expect(result).toBe(true);
       expect(hasCapability).toHaveBeenCalledWith(
-        {
-          capabilities: [
-            { name: subscriptionCapabilities.RELEASE_OCP_CLUSTERS, inherited: false, value: '' },
-          ],
-          managed: false,
-        },
+        cluster.subscription,
         subscriptionCapabilities.RELEASE_OCP_CLUSTERS,
       );
     });
